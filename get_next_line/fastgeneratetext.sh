@@ -71,24 +71,33 @@ done
 ./gentester $1 $4 > ./diff_gnl
 else
 FLIST='tsttxt1'
-#for i in $(eval echo "{2..$1}") do FLIST="$FLIST tsttxt$i" done ### Old code for multitest
-./gentester $1 > ./diff_gnl
-for i in $(eval echo "{1..$2}")
+for i in $(eval echo "{2..$1}")
 do
-	for j in $(eval echo "{1..$1}")
-	do
-		# CAT slow, do not use TAIL ? PERL really slow SED fastest?
-#		cat ./tsttxt$j | sed -n $(eval echo "'${i}p'") >> diff_cmp ### SLOW method
-#		tail -n $i tsttxt$j | head -n 1 >> ./diff_cmp ### improved but still slow
-#		perl -nle 'print && exit if $. == '$i'' ./tsttxt$j >> ./diff_cmp # 5000 lines, slower than sed
-		sed -ne $i'{p;q;}' ./tsttxt$j >> ./diff_cmp
-	done
-done
+	FLIST="$FLIST tsttxt$i"
+done ### generate file list for paste 
+
+./gentester $1 > ./diff_gnl
+paste -d'\n' $FLIST > ./diff_cmp
+
+#for i in $(eval echo "{1..$2}")
+#do
+#	for j in $(eval echo "{1..$1}")
+#	do
+#		# CAT slow, do not use TAIL ? PERL really slow SED fastest?
+##		cat ./tsttxt$j | sed -n $(eval echo "'${i}p'") >> diff_cmp ### SLOW method
+##		tail -n $i tsttxt$j | head -n 1 >> ./diff_cmp ### improved but still slow
+##		perl -nle 'print && exit if $. == '$i'' ./tsttxt$j >> ./diff_cmp # 5000 lines, slower than sed
+#		sed -ne $i'{p;q;}' ./tsttxt$j >> ./diff_cmp
+#	done
+#done
 fi
 
-diff -u ./diff_gnl ./diff_cmp
+diff -y --suppress-common-lines ./diff_gnl ./diff_cmp > ./diffresult
 if [ $? -eq 0 ]; then
     echo "Outputs match, success!";
 #	rm $FLIST
 #	rm ./diff_gnl ./diff_cmp
+else
+	printf "Fail! Differing lines:"
+	cat ./diffresult | wc -l
 fi
