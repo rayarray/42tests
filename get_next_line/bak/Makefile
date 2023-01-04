@@ -6,12 +6,12 @@
 #    By: rleskine <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/02 10:06:11 by rleskine          #+#    #+#              #
-#    Updated: 2023/01/03 17:31:57 by rleskine         ###   ########.fr        #
+#    Updated: 2023/01/02 10:28:18 by rleskine         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
-NAME	=	simpletest stdintest multitest gentester
-INC		=	../get_next_line.o ./itoa.c
+NAME	=	simpletest stdintest multitest
+INC		=	../get_next_line.o
 HDR		=	../get_next_line.h
 CFLAGS	=	-Wall -Wextra -Werror
 

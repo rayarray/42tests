@@ -38,7 +38,7 @@ int main(int argc, char **argv)
 	fd[0] = 0;
 	for (int j = 1; j < argc; j++)
 	{
-//		printf("argv[%d] = [%s]\n", j, argv[j]);
+		printf("argv[%d] = [%s]\n", j, argv[j]);
 		fd [j] = open(argv[j], O_RDONLY);
 		if (fd[j] == -1)
 		{
@@ -56,10 +56,7 @@ int main(int argc, char **argv)
 //		printf("eofcheck: [%d] eof[0]: [%d]\n", endcheck(eof), eof[0]);
 		for (int j = 0; j < fd[0]; j++)
 		{
-//			printf("Calling get_next_line with fd [%d]\n", fd[j + 1]);
 			line = get_next_line(fd[j + 1]);
-//			system("read -r -s -d ' '"); // read space
-//			system("sleep 0.6");
 			if (line == NULL)
 				eof[j + 1] = 1;
 			else
